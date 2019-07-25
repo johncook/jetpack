@@ -11,6 +11,7 @@ export const LAYOUT_CIRCLE = 'circle';
 export const LAYOUT_COLUMN = 'columns';
 export const LAYOUT_DEFAULT = 'rectangular';
 export const LAYOUT_SQUARE = 'square';
+export const LAYOUT_STACKED = 'stacked';
 export const LAYOUT_STYLES = [
 	{
 		isDefault: true,
@@ -24,5 +25,8 @@ export const LAYOUT_STYLES = [
 	},
 	{
 		name: LAYOUT_COLUMN,
+	},
+	{
+		name: LAYOUT_STACKED,
 	},
 ];

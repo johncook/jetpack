@@ -28,7 +28,8 @@ $tiled-gallery-max-column-count: 20;
 	}
 
 	&.is-style-columns,
-	&.is-style-rectangular {
+	&.is-style-rectangular,
+	&.is-style-stacked {
 		.tiled-gallery__item {
 			display: flex;
 		}
