@@ -43,13 +43,10 @@ matrix:
     name: "Build dashboard & extensions"
     language: node_js
     env: WP_TRAVISCI="yarn build"
-  - php: "7.3"
-    name: "E2E tests"
+  - name: "E2E tests"
     if: branch !~ /(^branch-.*-built)/ AND env(RUN_E2E) = true
+    php: "7.3"
     install:
-    - ./tests/e2e/bin/setup-travis-e2e-tests.sh
-    - echo $(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
-    before_script:
     # Enable user namespace cloning
     # - "sysctl kernel.unprivileged_userns_clone=1"
     - nvm install
@@ -57,6 +54,8 @@ matrix:
     # - bash tests/e2e/bin/setup-e2e-travis.sh jetpack_test root ''
     # - source ./env-file
     - yarn test-decrypt-config
+    - ./tests/e2e/bin/setup-travis-e2e-tests.sh
+    - echo $(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
     script: WP_BASE_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url) yarn test-e2e --runInBand
     addons:
       apt:
