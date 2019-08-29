@@ -68,6 +68,10 @@ const attributes = {
 		type: 'string',
 		default: 'slide',
 	},
+	sizeSlug: {
+		type: 'string',
+		default: 'large',
+	},
 };
 
 export const name = 'slideshow';
