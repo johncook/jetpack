@@ -26,6 +26,7 @@ import { Fragment, Component } from '@wordpress/element';
  * Internal dependencies
  */
 import { icon, SUPPORTED_CURRENCY_LIST } from '.';
+import StripeNudge from '../../shared/components/stripe-nudge';
 
 const API_STATE_LOADING = 0;
 const API_STATE_CONNECTED = 1;
@@ -357,6 +358,11 @@ class MembershipsButtonEdit extends Component {
 		return (
 			<Fragment>
 				{ this.props.noticeUI }
+				{ ! this.isJetpack &&
+					! this.state.shouldUpgrade &&
+					connected === API_STATE_NOTCONNECTED && (
+						<StripeNudge blockName="recurring-payments" stripeConnectUrl={ connectURL } />
+					) }
 				{ this.isJetpack && this.state.shouldUpgrade && (
 					<div className="wp-block-jetpack-recurring-payments">
 						<Placeholder
@@ -386,7 +392,8 @@ class MembershipsButtonEdit extends Component {
 							<Spinner />
 						</Placeholder>
 					) }
-				{ ! ( this.isJetpack && this.state.shouldUpgrade ) &&
+				{ this.isJetpack &&
+					! this.state.shouldUpgrade &&
 					! this.props.attributes.planId &&
 					connected === API_STATE_NOTCONNECTED && (
 						<div className="wp-block-jetpack-recurring-payments">
@@ -414,7 +421,8 @@ class MembershipsButtonEdit extends Component {
 							</Placeholder>
 						</div>
 					) }
-				{ ! ( this.isJetpack && this.state.shouldUpgrade ) &&
+				{ this.isJetpack &&
+					! this.state.shouldUpgrade &&
 					! this.props.attributes.planId &&
 					connected === API_STATE_CONNECTED &&
 					products.length === 0 && (
@@ -432,7 +440,8 @@ class MembershipsButtonEdit extends Component {
 							</Placeholder>
 						</div>
 					) }
-				{ ! ( this.isJetpack && this.state.shouldUpgrade ) &&
+				{ this.isJetpack &&
+					! this.state.shouldUpgrade &&
 					! this.props.attributes.planId &&
 					this.state.addingMembershipAmount !== PRODUCT_FORM_SUBMITTED &&
 					connected === API_STATE_CONNECTED &&
@@ -454,7 +463,7 @@ class MembershipsButtonEdit extends Component {
 						</div>
 					) }
 				{ this.state.products && inspectorControls }
-				{ this.props.attributes.planId && blockContent }
+				{ ( ! this.isJetpack || this.props.attributes.planId ) && blockContent }
 			</Fragment>
 		);
 	};
