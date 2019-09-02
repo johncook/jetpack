@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import SubmitButton from '../../shared/submit-button';
 import apiFetch from '@wordpress/api-fetch';
 import { __, sprintf } from '@wordpress/i18n';
-import { trimEnd } from 'lodash';
+import { get, trimEnd } from 'lodash';
 import formatCurrency, { getCurrencyDefaults } from '@automattic/format-currency';
 
 import {
@@ -54,6 +54,7 @@ class MembershipsButtonEdit extends Component {
 			editedProductRenewInterval: '1 month',
 		};
 		this.timeout = null;
+		this.isJetpack = get( window, [ '_currentSiteType' ] ) !== 'simple';
 	}
 
 	componentDidMount = () => {
@@ -356,7 +357,7 @@ class MembershipsButtonEdit extends Component {
 		return (
 			<Fragment>
 				{ this.props.noticeUI }
-				{ this.state.shouldUpgrade && (
+				{ this.isJetpack && this.state.shouldUpgrade && (
 					<div className="wp-block-jetpack-recurring-payments">
 						<Placeholder
 							icon={ <BlockIcon icon={ icon } /> }
@@ -385,7 +386,7 @@ class MembershipsButtonEdit extends Component {
 							<Spinner />
 						</Placeholder>
 					) }
-				{ ! this.state.shouldUpgrade &&
+				{ ! ( this.isJetpack && this.state.shouldUpgrade ) &&
 					! this.props.attributes.planId &&
 					connected === API_STATE_NOTCONNECTED && (
 						<div className="wp-block-jetpack-recurring-payments">
@@ -413,7 +414,7 @@ class MembershipsButtonEdit extends Component {
 							</Placeholder>
 						</div>
 					) }
-				{ ! this.state.shouldUpgrade &&
+				{ ! ( this.isJetpack && this.state.shouldUpgrade ) &&
 					! this.props.attributes.planId &&
 					connected === API_STATE_CONNECTED &&
 					products.length === 0 && (
@@ -431,7 +432,7 @@ class MembershipsButtonEdit extends Component {
 							</Placeholder>
 						</div>
 					) }
-				{ ! this.state.shouldUpgrade &&
+				{ ! ( this.isJetpack && this.state.shouldUpgrade ) &&
 					! this.props.attributes.planId &&
 					this.state.addingMembershipAmount !== PRODUCT_FORM_SUBMITTED &&
 					connected === API_STATE_CONNECTED &&
