@@ -301,8 +301,19 @@ class Jetpack_Memberships {
 			return has_any_blog_stickers( array( 'premium-plan', 'business-plan', 'ecommerce-plan' ), $site_id );
 		}
 
-		// For all Jetpack sites.
-		return Jetpack::is_active() && Jetpack_Plan::supports( 'recurring-payments' );
+		// For Jetpack sites.
+
+		// FIXME: We enable Recurring Payments on all Jetpack sites, including those on a Free plan.
+		// The reason is that in Jetpack, we cannot yet support the 'new', Upgrade and Stripe Nudge-based
+		// flow, since the post-checkout redirect skips the Jetpack Onboarding Checklist in Calypso,
+		// where Akismet and VaultPress installation is triggered.
+		// Instead, we continue to show the legacy, in-block prompts to upgrade the site's plan, and to
+		// connect Stripe. This however means that we have to display the block also if the site's on a Free plan.
+		//
+		// Check p7rd6c-23C-p2 for details and progress. If ready, uncomment the right-hand side of the line with the
+		// return statement below.
+		// phpcs:ignore
+		return Jetpack::is_active(); // && Jetpack_Plan::supports( 'recurring-payments' ); // phpcs:ignore
 	}
 
 	/**
