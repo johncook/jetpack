@@ -464,6 +464,11 @@ class MembershipsButtonEdit extends Component {
 					) }
 				{ this.state.products && inspectorControls }
 				{ ( ! this.isJetpack || this.props.attributes.planId ) && blockContent }
+				{ ! this.isJetpack && connected === API_STATE_NOTCONNECTED && (
+					<div className="wp-block-jetpack-recurring-payments disclaimer-only">
+						{ this.renderDisclaimer() }
+					</div>
+				) }
 			</Fragment>
 		);
 	};
