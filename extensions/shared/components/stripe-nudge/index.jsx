@@ -14,6 +14,7 @@ import './style.scss';
 
 export default ( { stripeConnectUrl } ) => (
 	<BlockNudge
+		buttonLabel={ __( 'Connect', 'jetpack' ) }
 		icon={
 			<GridiconStar
 				className="jetpack-stripe-nudge__icon"
